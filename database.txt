@@ -1,0 +1,124 @@
+create table CUSTOMERS(
+	customerID INT NOT NULL AUTO_INCREMENT,
+	firstName VARCHAR(255),
+	lastName VARCHAR(255),
+	phoneNumber VARCHAR(20),
+	email VARCHAR(255),
+	lateFees DOUBLE,
+	PRIMARY KEY (customerID)
+);
+
+
+create table EMPLOYEES(
+	employeeID INT NOT NULL AUTO_INCREMENT,
+	firstName VARCHAR(255),
+	lastName VARCHAR(255),
+	phoneNumber VARCHAR(20),
+	email VARCHAR(255),
+	pass VARCHAR(255),
+	PRIMARY KEY (employeeID)
+);
+
+
+create table MANAGERS( 
+	managerID INT NOT NULL AUTO_INCREMENT, 
+	firstName VARCHAR(255), 
+	lastName VARCHAR(255), 
+	phoneNumber VARCHAR(20), 
+	email VARCHAR(255), 
+	pass VARCHAR(255), 
+	PRIMARY KEY (managerID) 
+);
+
+
+create table MOVIES( 
+	movieID INT NOT NULL AUTO_INCREMENT, 
+	title VARCHAR(255), 
+	releaseDate YEAR, 
+	cost DOUBLE, 
+	catagory VARCHAR(255), 
+	rented VARCHAR(10), 
+	PRIMARY KEY (movieID)
+);
+
+
+create table TRANSACTIONS(
+	transactionID INT NOT NULL AUTO_INCREMENT,
+	customerID INT,
+	employeeID INT, 
+	date DATE,
+	returnDate DATE,
+    managerID INT,
+	PRIMARY KEY (transactionID),
+	FOREIGN KEY (customerID) REFERENCES CUSTOMERS(customerID),
+	FOREIGN KEY (employeeID) REFERENCES EMPLOYEES(employeeID),
+    FOREIGN KEY (managerID) REFERENCES MANAGERS(managerID)
+);
+
+
+create table RENTALMOVIE(
+	rentalMovieID INT NOT NULL AUTO_INCREMENT,
+	transactionID INT,
+	movieID INT,
+	movieCost DOUBLE,
+	returned varchar(10),
+	PRIMARY KEY (rentalMovieID),
+	FOREIGN KEY (movieID) REFERENCES MOVIES(movieID),
+	FOREIGN KEY (transactionID) REFERENCES TRANSACTIONS(transactionID)
+);
+
+
+create table ACTORS(
+	actorID INT NOT NULL AUTO_INCREMENT,
+	firstName VARCHAR(255),
+	lastName VARCHAR(255),
+	PRIMARY KEY (actorID)
+);
+
+create table MOVACT(
+	movActID INT NOT NULL AUTO_INCREMENT,
+	movieID INT,
+	actorID INT,
+	PRIMARY KEY (movActID),
+	FOREIGN KEY (movieID) REFERENCES MOVIES(movieID),
+	FOREIGN KEY (actorID) REFERENCES ACTORS(actorID) 
+);
+
+
+///// TEST DATA
+
+insert into ACTORS (firstName, lastName) values('chace', 'gibson');
+insert into ACTORS (firstName, lastName) values('billy', 'bob');
+insert into ACTORS (firstName, lastName) values('jim', 'carry');
+insert into ACTORS (firstName, lastName) values('emma', 'stone');
+
+
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('inception', 1995, 2.5, 'sifi', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('transendance', 1995, 2.5, 'sifi', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('irobot', 1995, 2.5, 'sifi', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('avatar', 1995, 2.5, 'sifi', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('interstellar', 1995, 2.5, 'sifi', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('arrival', 1995, 2.5, 'sifi', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('the martian', 1995, 2.5, 'sifi', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('deadpool', 1995, 2.5, 'comedy', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('the hangover', 1995, 2.5, 'comedy', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('superbad', 1995, 2.5, 'comedy', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('office space', 1995, 2.5, 'comedy', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('office space', 1995, 2.5, 'comedy', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('office space', 1995, 2.5, 'comedy', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('office space', 1995, 2.5, 'comedy', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('office space', 1995, 2.5, 'comedy', 'yes');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('superbad', 1995, 2.5, 'comedy', 'no');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('bruce almighty', 1995, 2.5, 'comedy', 'yes');
+insert into MOVIES (title, releaseDate, cost, catagory, rented) values ('anchorman', 1998, 2.5, 'comedy', 'yes');
+
+
+
+
+
+
+////// clean all transactions and all related
+update MOVIES set rented = 'no';
+update CUSTOMERS set lateFees = 0;
+delete from RENTALMOVIE;
+delete from TRANSACTIONS;
